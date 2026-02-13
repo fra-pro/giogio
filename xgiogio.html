@@ -146,7 +146,8 @@
             let btnNo, btnYes;
             let currentCount;
             let p_no;
-            let check;
+            let check,check2;
+            check2 = 0;
             // Seleziona i bottoni giusti in base alla schermata
             if (screenNum === 1) {
                 btnNo = document.querySelector('#screen1 .btn-no');
@@ -181,8 +182,13 @@
                 let frasi;
                 if (check === 1){
                     frasi = ["Dai...", "Davvero fai? ... RIDICOLA", "...Sei na schifosa"];
+                    check2 = 1
                 }else{
-                    frasi = ["Ancora che ci provi?", "Sai che c'è... VAFFANCULO", "...C'è un autobus per l'aquila che parte tra poco!"];
+                    if(check2===0){
+                        frasi = ["Eh si certo no...", "Sai che c'è... VAFFANCULO", "...C'è un autobus per l'aquila che parte tra poco!"];
+                    }else{
+                        frasi = ["Ancora che ci provi?", "Sai che c'è... VAFFANCULO", "...C'è un autobus per l'aquila che parte tra poco!"];
+                    }
                 }
                 
 
