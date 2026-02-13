@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorpresa ❤️</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffdde1; /* Sfondo rosa chiaro */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden; /* Evita scroll se il bottone diventa gigante */
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+
+        img {
+            max-width: 80%;
+            max-height: 40vh;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yes {
+            background-color: #ff4d6d;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-no {
+            background-color: #c9184a;
+            color: white;
+        }
+
+        /* Classi per nascondere/mostrare le schermate */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .active {
+            display: flex;
+        }
+
+        /* Animazione per la scritta finale */
+        #final-joke {
+            display: none;
+            margin-top: 20px;
+            color: #590d22;
+            font-size: 20px;
+            font-weight: bold;
+            animation: fadeIn 2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="screen1" class="screen active">
+        <img src="https://media1.tenor.com/m/UfxL8hPYHQwAAAAC/kisses-happy-valentines-day.gif" alt="Cute 1">
+        <h1>GioGio vuoi passare il San Valentino con me?</h1>
+        <div class="buttons">
+            <button class="btn-yes" onclick="goToScreen2()">Si</button>
+            <button class="btn-no" onclick="handleNo(1)">No</button>
+        </div>
+        <div>
+            <b><p id="no_one_text""></p></b>
+        </div>
+    </div>
+
+    <div id="screen2" class="screen">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3R6eW54cnl5eHdjNzRkeW12a2F6aG55b3J4a2J1c3J1aW5tOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l3q2K5jinAlChoCLS/giphy.gif" alt="Cute 2">
+        <h1>Sicura sicura?</h1>
+        <div class="buttons">
+            <button class="btn-yes" onclick="goToScreen3()">Si</button>
+            <button class="btn-no" onclick="handleNo(2)">No</button>
+        </div>
+        <div> 
+            <b><p id="no_two_text"></p></b>
+        </div>
+    </div>
+
+    <div id="screen3" class="screen">
+        <h1>Allora ecco il mio regalo per te...</h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/6620/6620696.png" alt="Rosa">
+        <p id="final-joke">Scheeeerzo!<br>Apri il porta oggetti della macchina! 🚗🎁</p>
+    </div>
+
+    <script>
+        // Contatori per i "No" delle rispettive schermate
+        let noCount1 = 0;
+        let noCount2 = 0;
+
+        function goToScreen2() {
+            document.getElementById('screen1').classList.remove('active');
+            document.getElementById('screen2').classList.add('active');
+        }
+
+        function goToScreen3() {
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen3').classList.add('active');
+            
+            // Fa comparire la scritta scherzo dopo 3 secondi (3000 millisecondi)
+            setTimeout(() => {
+                document.getElementById('final-joke').style.display = 'block';
+            }, 2000);
+        }
+
+        function handleNo(screenNum) {
+            let btnNo, btnYes;
+            let currentCount;
+            let p_no;
+            let check;
+            // Seleziona i bottoni giusti in base alla schermata
+            if (screenNum === 1) {
+                btnNo = document.querySelector('#screen1 .btn-no');
+                btnYes = document.querySelector('#screen1 .btn-yes');
+                p_no = document.querySelector('#screen1 #no_one_text');
+                noCount1++;
+                currentCount = noCount1;
+                check = 1;
+            } else {
+                btnNo = document.querySelector('#screen2 .btn-no');
+                btnYes = document.querySelector('#screen2 .btn-yes');
+                p_no = document.querySelector('#screen2 #no_two_text');
+                noCount2++;
+                check = 2;
+                currentCount = noCount2;
+            }
+
+            // Logica ingrandimento
+            if (currentCount < 4) {
+                // Ingrandisci il tasto SI
+                let currentSize = parseFloat(window.getComputedStyle(btnYes).fontSize);
+                let currentPadding = parseFloat(window.getComputedStyle(btnYes).paddingTop);
+                    
+                btnYes.style.fontSize = (currentSize * 1.5) + 'px';
+                btnYes.style.padding = (currentPadding * 1.5) + 'px ' + (currentPadding * 2.5) + 'px';
+
+                // Rimpicciolisci il tasto NO
+                let currentSizeNo = parseFloat(window.getComputedStyle(btnNo).fontSize);
+                btnNo.style.fontSize = (currentSizeNo * 0.8) + 'px';
+                
+                // Cambia il testo del tasto No per essere simpatici (opzionale)
+                let frasi;
+                if (check === 1){
+                    frasi = ["Dai...", "Davvero fai? ... RIDICOLA", "...Sei na schifosa"];
+                }else{
+                    frasi = ["Ancora che ci provi?", "Sai che c'è... VAFFANCULO", "...C'è un autobus per l'aquila che parte tra poco!"];
+                }
+                
+
+                //btnNo.innerText = frasi[currentCount - 1] || "No";
+                p_no.innerText = frasi[currentCount - 1] || "No";
+
+                
+            } else {
+                // Quarta volta: il tasto No sparisce
+                btnNo.style.display = 'none';
+                // Resetta il tasto SI a una dimensione enorme per riempire lo spazio
+                btnYes.style.fontSize = '40px';
+                p_no.innerText = ""
+                btnYes.innerText = "CLICCAMI E BASTA! ❤️";
+            }
+        }
+    </script>
+</body>
+</html>
